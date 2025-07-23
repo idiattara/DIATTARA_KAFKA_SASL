@@ -37,3 +37,11 @@ docker run -d   --name=grafana   -p 3000:3000   grafana/grafana
  1839  ./influxd &
  1840  ./influx
 
+Édite (ou crée) le fichier de conf influxdb.conf (souvent dans /etc/influxdb/influxdb.conf ou là où tu as extrait InfluxDB) et dans la section [http] :
+
+ini
+Copier
+Modifier
+[http]
+  # bind-address = "127.0.0.1:8086"  # commentaire cette ligne ou modifie
+  bind-address = ":8086"         
