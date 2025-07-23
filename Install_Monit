@@ -1,10 +1,39 @@
 docker pull grafana/grafana
 docker run -d   --name=grafana   -p 3000:3000   grafana/grafana
- docker ps
- sudo curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
- sudo echo "deb https://repos.influxdata.com/ubuntu bionic stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
-  sudo apt update
-  sudo apt install influxdb
- sudo apt install influxdb
- sudo systemctl start influxdb
-  sudo systemctl status  influxdb
+ wget https://dl.influxdata.com/influxdb/releases/influxdb-1.8.10_linux_amd64.tar.gz
+ 1806  ls
+ 1807  tar -xvf influxdb-1.8.10_linux_amd64.tar.gz
+ 1808  ls
+ 1809  systemctl status  influxdb
+ 1810  systemctl stop  influxdb
+ 1811  apt remove influxdb
+ 1812  apt purge influxdb
+ 1813  ls
+ 1814  cd influxdb-1.8.10
+ 1815  cd influxdb-1.8.10-1/
+ 1816  ls
+ 1817  cd ??
+ 1818  cd ..
+ 1819  ls
+ 1820  rm  -f influxdb-1.8.10_linux_amd64.tar.gz
+ 1821  rm  -rf influxdb-1.8.10-1
+ 1822  wget https://dl.influxdata.com/influxdb/releases/influxdb-1.8.10_linux_amd64.tar.gz
+ 1823  ar -xvzf influxdb-1.8.10_linux_amd64.tar.gz
+ 1824  ls
+ 1825  tar -xvzf influxdb-1.8.10_linux_amd64.tar.gz
+ 1826  ls
+ 1827  cd influxdb-1.8.10-1/
+ 1828  ls
+ 1829  cd usr/
+ 1830  ls
+ 1831  cd bin/
+ 1832  ls
+ 1833  ./influx
+ 1834  ./influx start
+ 1835  influx
+ 1836  ls
+ 1837  ./influx
+ 1838  ./influxd
+ 1839  ./influxd &
+ 1840  ./influx
+
