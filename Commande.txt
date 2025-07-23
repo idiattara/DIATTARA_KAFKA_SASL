@@ -1,0 +1,75 @@
+@@@@@@@@@@@@@@@@@@@@@@@@@Step1  pull the package 
+
+sudo apt install openjdk-8-jdk
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+java -version
+
+$ cd /opt
+
+$ mkdir kafka
+$ cd kafka
+$ curl "https://archive.apache.org/dist/kafka/2.6.2/kafka_2.13-2.6.2.tgz"  -o kafka.tgz
+$ tar -xvzf kafka.tgz --strip 1
+@@@@@@@@@@@@@@@@@@@@@@@@@Step 2  create the file conf 
+
+$ sudo nano /etc/systemd/system/zookeeper.service
+
+add this lines 
+---------------------        start ----------------------------------------------------------
+
+[Unit]
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/opt/kafka/bin/zookeeper-server-start.sh /opt/kafka/config/zookeeper.properties
+ExecStop=/opt/kafka/bin/zookeeper-server-stop.sh
+Restart=on-abnormal
+Environment=JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+[Install]
+WantedBy=multi-user.target
+
+
+------------------------------end conf --------------------
+
+$ sudo nano /etc/systemd/system/kafka.service
+
+add this lins
+
+---------------------        start ----------------------------------------------------------
+
+[Unit]
+Requires=zookeeper.service
+After=zookeeper.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/bin/sh -c '/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties > /opt/kafka/kafka.log 2>&1'
+ExecStop=/opt/kafka/bin/kafka-server-stop.sh
+Restart=on-abnormal
+Environment=JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+[Install]
+WantedBy=multi-user.target
+
+------------------------------end conf --------------------
+
+
+step3 start kafka  @@@@@@@@@@@@@@@@@@@@@@@@@
+
+sudo systemctl status kafka
+
+
+
+You have started the kafka service. But if you rebooted your server, Kafka would not restart automatically. To enable the kafka service on server boot, run the following commands:
+
+sudo systemctl enable zookeeper
+sudo systemctl enable kafka
+
+ wget  https://apache.root.lu/nifi/1.23.2/nifi-1.23.2-bin.zip
