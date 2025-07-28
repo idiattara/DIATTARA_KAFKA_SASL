@@ -1,0 +1,67 @@
+1. Installer les connecteurs
+# JDBC source pour MySQL
+confluent-hub install confluentinc/kafka-connect-jdbc:latest
+
+# Elasticsearch sink
+confluent-hub install confluentinc/kafka-connect-elasticsearch:latest
+
+Creer le conecteur JDB
+
+{
+  "name": "mysql-source-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+    "tasks.max": "1",
+    "connection.url": "jdbc:mysql://localhost:3306/testdb?user=root&password=pass",
+    "mode": "incrementing",
+    "incrementing.column.name": "id",
+    "table.whitelist": "users",
+    "topic.prefix": "mysql-",
+    "poll.interval.ms": "5000"
+  }
+}
+2. Créer le connecteur JDBC Source (pull depuis MySQL)
+curl -X POST http://localhost:8083/connectors \
+  -H "Content-Type: application/json" \
+  -d @mysql-jdbc-source.json
+
+3. Vérifier que Kafka reçoit les données
+bin/kafka-console-consumer.sh \
+  --bootstrap-server localhost:9092 \
+  --topic mysql-users \
+  --from-beginning
+
+
+4 Créer le connecteur Elasticsearch Sink (push vers Elasticsearch)
+
+{
+  "name": "elasticsearch-sink-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+    "tasks.max": "1",
+    "topics": "mysql-users",
+    "connection.url": "http://localhost:9200",
+    "type.name": "_doc",
+    "key.ignore": "true",
+    "schema.ignore": "true"
+  }
+}
+curl -X POST http://localhost:8083/connectors \
+  -H "Content-Type: application/json" \
+  -d @elasticsearch-sink.json
+
+5 Verification
+curl http://localhost:9200/mysql-users/_search?pretty
+
+Resumé
+MySQL (users table)
+      ⬇️ Pull
+Kafka Connect JDBC Source
+      ⬇️ Envoie dans
+Kafka Topic: mysql-users
+      ⬇️ Push
+Kafka Connect Elasticsearch Sink
+      ⬇️
+Elasticsearch index: mysql-users
+
+
