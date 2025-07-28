@@ -1,0 +1,47 @@
+1 Telecharger le connecteur sur confluent et  le mettre dans libs 
+confluent-hub install confluentinc/kafka-connect-jdbc:latest
+
+6. Créer le fichier de configuration du connecteur
+Exemple : connect-jdbc-source.properties
+properties
+Copier
+Modifier
+name=jdbc-source-connector
+connector.class=io.confluent.connect.jdbc.JdbcSourceConnector
+tasks.max=1
+connection.url=jdbc:mysql://localhost:3306/ma_db?user=user&password=pass
+table.whitelist=ma_table
+mode=incrementing
+incrementing.column.name=id
+topic.prefix=mysql-
+poll.interval.ms=10000
+
+
+7. Lancer Kafka Connect
+Mode Standalone
+bash
+Copier
+Modifier
+bin/connect-standalone.sh \
+    config/connect-standalone.properties \
+    config/connect-jdbc-source.properties
+Mode Distributed
+
+bin/connect-distributed.sh config/connect-distributed.properties
+Et ensuite, envoie le connecteur via l'API REST :
+
+bash
+Copier
+Modifier
+curl -X POST http://localhost:8083/connectors -H "Content-Type: application/json" -d '{
+  "name": "jdbc-source-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+    "tasks.max": "1",
+    "connection.url": "jdbc:mysql://localhost:3306/ma_db?user=user&password=pass",
+    "table.whitelist": "ma_table",
+    "mode": "incrementing",
+    "incrementing.column.name": "id",
+    "topic.prefix": "mysql-"
+  }
+}'
