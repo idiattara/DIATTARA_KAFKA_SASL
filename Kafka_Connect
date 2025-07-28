@@ -65,3 +65,13 @@ Kafka Connect Elasticsearch Sink
 Elasticsearch index: mysql-users
 
 
+CREATE STREAM users_stream (
+  id VARCHAR KEY,
+  name VARCHAR,
+  age INT
+) WITH (
+  kafka_topic='users',
+  value_format='JSON'
+);
+
+
