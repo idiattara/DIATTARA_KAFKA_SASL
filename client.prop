@@ -1,0 +1,15 @@
+# Protocole de sécurité pour se connecter au broker
+security.protocol=SASL_SSL
+
+# Méthode d'authentification SASL
+sasl.mechanism=SCRAM-SHA-256
+
+# JAAS inline pour se logger côté client
+sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required username="admin" password="adminpass";
+
+# SSL : truststore pour vérifier le broker
+ssl.truststore.location=/etc/kafka/kafka.truststore.jks
+ssl.truststore.password=changeit
+
+# Désactive la vérification du hostname (utile si ton certificat n'a pas le nom exact)
+ssl.endpoint.identification.algorithm=
