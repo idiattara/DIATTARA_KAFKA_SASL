@@ -134,5 +134,3 @@ La date d’expiration de la licence peut être consultée directement depuis l�
 
 ---
 
-✨ *Document converti depuis PDF vers Markdown avec une mise en forme lisible, structurée et prête à être versionnée (Git).*
-
