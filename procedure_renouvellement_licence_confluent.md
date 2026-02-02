@@ -127,10 +127,3 @@ La date d’expiration de la licence peut être consultée directement depuis l�
 
 ---
 
-## ✅ Bonnes pratiques
-- Toujours effectuer l’opération **hors heures de pointe**
-- Vérifier les logs en cas de problème au redémarrage
-- Documenter la date de renouvellement et la date d’expiration
-
----
-
