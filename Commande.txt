@@ -1,5 +1,5 @@
 @@@@@@@@@@@@@@@@@@@@@@@@@Step1  pull the package 
-
+curl  http://localhost:8000/?name[]=kafka_consumergroup_group_lag
 sudo apt install openjdk-8-jdk
 
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
